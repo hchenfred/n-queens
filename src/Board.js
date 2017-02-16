@@ -144,23 +144,78 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      var numOfRow = this.rows().length;
-      var num = 0;
       var matrix = this.rows();
-      for (var i = 0; i < matrix.length; i++) {
-        if (maxtrix[i][i] === 1) {
-          if (num >= 1) {
-            return true;
-          } else {
-            num++;
+      if (majorDiagonalColumnIndexAtFirstRow >= 0) {
+        var currentRow = 0;
+        var currentCol = majorDiagonalColumnIndexAtFirstRow;
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
           }
+          currentRow++;
+          currentCol++;
         }
-      } 
+      } else {
+        var currentCol = 0;
+        var currentRow = - (majorDiagonalColumnIndexAtFirstRow);
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
+          }
+          currentRow++;
+          currentCol++;
+        }
+      }
+      
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var matrix = this.rows();
+      for (var i = 0; i < matrix.length - 1; i++) {
+        var currentRow = 0;
+        var currentCol = i;
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
+          }
+          currentRow++;
+          currentCol++;
+        }
+      }
+
+      for (var i = 1; i < matrix.length - 1; i++) {
+        var currentRow = i;
+        var currentCol = 0;
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
+          }
+          currentRow++;
+          currentCol++;
+        }
+      }
       return false; // fixme
     },
 
@@ -171,11 +226,78 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var matrix = this.rows();
+      if (minorDiagonalColumnIndexAtFirstRow <= matrix.length - 1) {
+        var currentRow = 0;
+        var currentCol = minorDiagonalColumnIndexAtFirstRow;
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
+          }
+          currentRow++;
+          currentCol--;
+        }
+      } else {
+        var currentCol = matrix.length - 1;
+        var currentRow = minorDiagonalColumnIndexAtFirstRow - currentCol;
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
+          }
+          currentRow++;
+          currentCol--;
+        }
+      }
+      
+      return false; // fixme   
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var matrix = this.rows();
+      for (var i = matrix.length - 1; i > 0; i--) {
+        var currentRow = 0;
+        var currentCol = i;
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
+          }
+          currentRow++;
+          currentCol--;
+        }
+      }
+
+      for (var i = 1; i < matrix.length - 1; i++) {
+        var currentRow = i;
+        var currentCol = matrix.length - 1;
+        var counts = 0;
+        while (this._isInBounds(currentRow, currentCol)) {
+          if (matrix[currentRow][currentCol] === 1) {
+            if (counts >= 1) {
+              return true;
+            } else {
+              counts++;
+            }
+          }
+          currentRow++;
+          currentCol--;
+        }
+      }      
       return false; // fixme
     }
 
