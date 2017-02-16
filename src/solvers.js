@@ -17,14 +17,12 @@
 
 
 window.findNRooksSolution = function(n) {
-  //var matrix = window.makeEmptyMatrix(n);
-  var matrix = [...Array(n).keys()].map(i => Array(n));
   console.log('starting the problem................');
-  console.log(JSON.stringify(matrix));
-  var board = new Board(matrix);
+  var board = new Board({n: n});
+  // console.log(JSON.stringify(board.rows()));
 
   //this dfs function returns one solution when it finds one
-  var findPositions = function(n, board, currRow) {
+  var findPositions = function(board, currRow) {
     if (currRow === n) {
       return board.rows();
     }
@@ -33,7 +31,7 @@ window.findNRooksSolution = function(n) {
       //console.log(JSON.stringify(board.rows()));
       board.rows()[currRow][i] = 1;
       if (!board.hasAnyRooksConflicts()) {
-        var solution = findPositions(n, board, currRow + 1);
+        var solution = findPositions(board, currRow + 1);
         if (solution !== undefined) {
           return solution;
         }
@@ -42,8 +40,7 @@ window.findNRooksSolution = function(n) {
     }
   };
 
-
-  var result = findPositions(n, board, 0);
+  var result = findPositions(board, 0);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(result));
   return result;
 };
@@ -51,8 +48,6 @@ window.findNRooksSolution = function(n) {
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0; //fixme
-  var matrix = [...Array(n).keys()].map(i => Array(n));
-  var board = new Board(matrix);
 
   var factCount = function(n) {
     if (n === 0) {
@@ -63,15 +58,11 @@ window.countNRooksSolutions = function(n) {
 
   //console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return factCount(n);
-};
+}; 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var matrix = [...Array(n).keys()].map(i => Array(n));
-  var board = new Board(matrix);
-
-  //console.log('starting ' + board.rows().length + '.....................'); 
-  //console.log('check if board is created correctly' + JSON.stringify(board.rows()));
+  var board = new Board({n: n});
 
   var findPositions = function(n, board, currRow) {
     if (currRow === n) {
@@ -92,10 +83,9 @@ window.findNQueensSolution = function(n) {
     }
   };
 
-
   var result = findPositions(n, board, 0);
   if (result === undefined) {
-    return matrix;
+    return board.rows();
   }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(result));
@@ -105,27 +95,24 @@ window.findNQueensSolution = function(n) {
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
   var solutionCount = 0; 
-  var matrix = [...Array(n).keys()].map(i => Array(n));
-  var board = new Board(matrix);
+  var board = new Board({n: n});
 
-  //console.log('starting ' + board.rows().length + '.....................'); 
-  var findPositions = function(n, board, currRow) {
-    if (currRow === n) {
+  var _findQueenSolutions = function(currentRow) {
+    if (currentRow === n) {
       solutionCount++;
-      return; 
+      return;
     }
 
     for (var i = 0; i < n; i++) {
-      board.rows()[currRow][i] = 1;
+      board.rows()[currentRow][i] = 1;
       if (!board.hasAnyQueensConflicts()) {
-        findPositions(n, board, currRow + 1);
-      }      
-      board.rows()[currRow][i] = 0;
+        _findQueenSolutions(currentRow + 1);
+      }
+      board.rows()[currentRow][i] = 0;
     }
   };
-
-
-  findPositions(n, board, 0);
+  _findQueenSolutions(0);
+  
   //console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
