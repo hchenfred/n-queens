@@ -95,7 +95,10 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      //debugger;
+      if (this.rows().length === 0) {
+        return false;
+      }
+
       for (var i = 0; i < this.rows().length; i++) {
         if (this.hasRowConflictAt(i)) {
           return true;
@@ -128,6 +131,9 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      if (this.rows().length === 0) {
+        return false;
+      }
       //how many cols there are? this.rows()[0].length
       for (var i = 0; i < this.rows()[0].length; i++) {
         if (this.hasColConflictAt(i)) {
