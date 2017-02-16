@@ -83,27 +83,26 @@
 //         return matrix[row][col] === 1;
 //       },
 
-    checkIt : function(currentRow, currentCol, matrix, flag) {
+    checkIt: function(currentRow, currentCol, matrix, flag) {
       var count = 0;
       var currentRow = currentRow;
       var currentCol = currentCol;
       var matrix = matrix;
-       while (this._isInBounds(currentRow, currentCol)) {
-          if(matrix[currentRow][currentCol] === 1){
-            if(count >= 1){
-              return true;
-            } else {
-              count++;
+      while (this._isInBounds(currentRow, currentCol)) {
+        if (matrix[currentRow][currentCol] === 1) {
+          if (count >= 1) {
+            return true;
+          } else {
+            count++;
+          }
+        } 
+        currentRow++;
+        if (flag) {
+          currentCol--;
+        } else {
+          currentCol++;
         }
-      }
-
-      currentRow++;
-      if (flag) {
-        currentCol--;
-      } else {
-        currentCol++;
-      }
-    } 
+      } 
       return false;
     },
     hasRowConflictAt: function(rowIndex) {
@@ -151,7 +150,6 @@
           }
         }
       }
-
       return false; // fixme
     },
 
@@ -169,7 +167,6 @@
       return false; // fixme
     },
 
-
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -181,21 +178,16 @@
       if (majorDiagonalColumnIndexAtFirstRow >= 0) {
         var currentRow = 0;
         var currentCol = majorDiagonalColumnIndexAtFirstRow;
-          if(this.checkIt(currentRow, currentCol, matrix, false)){
-            return true;
-          }
+        if (this.checkIt(currentRow, currentCol, matrix, false)) {
+          return true;
         }
-
-       else {
+      } else {
         var currentCol = 0;
         var currentRow = - (majorDiagonalColumnIndexAtFirstRow);
-
-          if(this.checkIt(currentRow, currentCol, matrix, false)){
-            return true;
-          }
-        
+        if (this.checkIt(currentRow, currentCol, matrix, false)) {
+          return true;
+        }
       }
-      
       return false; // fixme
     },
 
@@ -203,28 +195,23 @@
     hasAnyMajorDiagonalConflicts: function() {
       var matrix = this.rows();
       var counts = 0;
-
-
       for (var i = 0; i < matrix.length - 1; i++) {
         var currentRow = 0;
         var currentCol = i;
     
-          if(this.checkIt(currentRow, currentCol, matrix, false)){
-            return true;
-          }
+        if (this.checkIt(currentRow, currentCol, matrix, false)) {
+          return true;
         }
+      }
       for (var i = 1; i < matrix.length - 1; i++) {
         var currentRow = i;
         var currentCol = 0;
-          if(this.checkIt(currentRow, currentCol, matrix, false)){
-            return true;
-          }
+        if (this.checkIt(currentRow, currentCol, matrix, false)) {
+          return true;
         }
-  
+      }
       return false; // fixme
     },
-
-
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
@@ -237,20 +224,16 @@
       if (minorDiagonalColumnIndexAtFirstRow <= matrix.length - 1) {
         var currentRow = 0;
         var currentCol = minorDiagonalColumnIndexAtFirstRow;
-     
-      
-          if(this.checkIt(currentRow, currentCol, matrix, true)){
-            return true;
-          }
+        if (this.checkIt(currentRow, currentCol, matrix, true)) {
+          return true;
+        }
       } else {
         var currentCol = matrix.length - 1;
         var currentRow = minorDiagonalColumnIndexAtFirstRow - currentCol;
-          if(this.checkIt(currentRow, currentCol, matrix, true)){
-            return true;
-          }
-
+        if (this.checkIt(currentRow, currentCol, matrix, true)) {
+          return true;
+        }
       }
-      
       return false; // fixme   
     },
 
@@ -261,20 +244,18 @@
       for (var i = matrix.length - 1; i > 0; i--) {
         var currentRow = 0;
         var currentCol = i;
-          if(this.checkIt(currentRow, currentCol, matrix, true)){
-            return true;
-          }
-
+        if (this.checkIt(currentRow, currentCol, matrix, true)) {
+          return true;
+        }
       }
 
       for (var i = 1; i < matrix.length - 1; i++) {
         var currentRow = i;
         var currentCol = matrix.length - 1;
         
-          if(this.checkIt(currentRow, currentCol, matrix, true)){
-            return true;
-          }
-
+        if (this.checkIt(currentRow, currentCol, matrix, true)) {
+          return true;
+        }
       }      
       return false; // fixme
     }
